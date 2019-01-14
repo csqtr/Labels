@@ -30,23 +30,27 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainLabels));
             this.pnlHeader = new System.Windows.Forms.Panel();
-            this.pnlSide = new System.Windows.Forms.Panel();
-            this.lblClose = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblClose = new System.Windows.Forms.Label();
+            this.pnlSide = new System.Windows.Forms.Panel();
             this.pnlSideContents = new System.Windows.Forms.Panel();
-            this.pnlImgViewer = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.bfbtnPrint = new Bunifu.Framework.UI.BunifuThinButton2();
             this.picHamb = new System.Windows.Forms.PictureBox();
+            this.pnlImgViewer = new System.Windows.Forms.Panel();
+            this.pnlPage = new System.Windows.Forms.Panel();
+            this.lblHead = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
+            this.printdoc1 = new System.Drawing.Printing.PrintDocument();
+            this.previewdlg = new System.Windows.Forms.PrintPreviewDialog();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.pnlHeader.SuspendLayout();
             this.pnlSide.SuspendLayout();
             this.pnlSideContents.SuspendLayout();
-            this.pnlImgViewer.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHamb)).BeginInit();
+            this.pnlImgViewer.SuspendLayout();
+            this.pnlPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -57,9 +61,33 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1033, 107);
+            this.pnlHeader.Size = new System.Drawing.Size(929, 107);
             this.pnlHeader.TabIndex = 0;
             this.pnlHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlHeader_MouseDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(863, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(22, 26);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "_";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // lblClose
+            // 
+            this.lblClose.AutoSize = true;
+            this.lblClose.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClose.ForeColor = System.Drawing.Color.White;
+            this.lblClose.Location = new System.Drawing.Point(892, 3);
+            this.lblClose.Name = "lblClose";
+            this.lblClose.Size = new System.Drawing.Size(26, 26);
+            this.lblClose.TabIndex = 2;
+            this.lblClose.Text = "X";
+            this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
             // 
             // pnlSide
             // 
@@ -69,73 +97,102 @@
             this.pnlSide.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSide.Location = new System.Drawing.Point(0, 107);
             this.pnlSide.Name = "pnlSide";
-            this.pnlSide.Size = new System.Drawing.Size(185, 540);
+            this.pnlSide.Size = new System.Drawing.Size(185, 616);
             this.pnlSide.TabIndex = 1;
-            // 
-            // lblClose
-            // 
-            this.lblClose.AutoSize = true;
-            this.lblClose.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClose.ForeColor = System.Drawing.Color.White;
-            this.lblClose.Location = new System.Drawing.Point(1000, 7);
-            this.lblClose.Name = "lblClose";
-            this.lblClose.Size = new System.Drawing.Size(26, 26);
-            this.lblClose.TabIndex = 2;
-            this.lblClose.Text = "X";
-            this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(971, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(22, 26);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "_";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // pnlSideContents
             // 
+            this.pnlSideContents.Controls.Add(this.button2);
             this.pnlSideContents.Controls.Add(this.bfbtnPrint);
             this.pnlSideContents.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlSideContents.Location = new System.Drawing.Point(0, 47);
+            this.pnlSideContents.Location = new System.Drawing.Point(0, 44);
             this.pnlSideContents.Name = "pnlSideContents";
-            this.pnlSideContents.Size = new System.Drawing.Size(185, 493);
+            this.pnlSideContents.Size = new System.Drawing.Size(185, 572);
             this.pnlSideContents.TabIndex = 2;
+            // 
+            // bfbtnPrint
+            // 
+            this.bfbtnPrint.ActiveBorderThickness = 1;
+            this.bfbtnPrint.ActiveCornerRadius = 20;
+            this.bfbtnPrint.ActiveFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
+            this.bfbtnPrint.ActiveForecolor = System.Drawing.Color.White;
+            this.bfbtnPrint.ActiveLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
+            this.bfbtnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bfbtnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bfbtnPrint.BackgroundImage")));
+            this.bfbtnPrint.ButtonText = "Print";
+            this.bfbtnPrint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bfbtnPrint.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bfbtnPrint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
+            this.bfbtnPrint.IdleBorderThickness = 1;
+            this.bfbtnPrint.IdleCornerRadius = 20;
+            this.bfbtnPrint.IdleFillColor = System.Drawing.Color.White;
+            this.bfbtnPrint.IdleForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
+            this.bfbtnPrint.IdleLineColor = System.Drawing.Color.SeaShell;
+            this.bfbtnPrint.Location = new System.Drawing.Point(6, 496);
+            this.bfbtnPrint.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.bfbtnPrint.Name = "bfbtnPrint";
+            this.bfbtnPrint.Size = new System.Drawing.Size(173, 43);
+            this.bfbtnPrint.TabIndex = 0;
+            this.bfbtnPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bfbtnPrint.Click += new System.EventHandler(this.bfbtnPrint_Click);
+            // 
+            // picHamb
+            // 
+            this.picHamb.BackgroundImage = global::Labels.Properties.Resources.icons8_menu_filled_500;
+            this.picHamb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picHamb.Location = new System.Drawing.Point(147, 8);
+            this.picHamb.Name = "picHamb";
+            this.picHamb.Size = new System.Drawing.Size(30, 30);
+            this.picHamb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picHamb.TabIndex = 1;
+            this.picHamb.TabStop = false;
+            this.picHamb.Click += new System.EventHandler(this.picHamb_Click);
             // 
             // pnlImgViewer
             // 
+            this.pnlImgViewer.AutoScroll = true;
             this.pnlImgViewer.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlImgViewer.Controls.Add(this.panel1);
+            this.pnlImgViewer.Controls.Add(this.pnlPage);
             this.pnlImgViewer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlImgViewer.Location = new System.Drawing.Point(185, 157);
+            this.pnlImgViewer.Location = new System.Drawing.Point(185, 151);
             this.pnlImgViewer.Name = "pnlImgViewer";
-            this.pnlImgViewer.Size = new System.Drawing.Size(848, 490);
+            this.pnlImgViewer.Size = new System.Drawing.Size(744, 572);
             this.pnlImgViewer.TabIndex = 2;
             // 
-            // panel1
+            // pnlPage
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(42, 20);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(766, 447);
-            this.panel1.TabIndex = 0;
+            this.pnlPage.BackColor = System.Drawing.Color.White;
+            this.pnlPage.Controls.Add(this.label2);
+            this.pnlPage.Controls.Add(this.lblHead);
+            this.pnlPage.Location = new System.Drawing.Point(53, 20);
+            this.pnlPage.Name = "pnlPage";
+            this.pnlPage.Size = new System.Drawing.Size(595, 842);
+            this.pnlPage.TabIndex = 0;
             // 
-            // label2
+            // lblHead
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(46, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(690, 39);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "LARGE FORMAT  REPLACEMENT SHEET";
-            this.label2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label2_MouseDown);
-            this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label2_MouseMove);
-            this.label2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.label2_MouseUp);
+            this.lblHead.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblHead.AutoSize = true;
+            this.lblHead.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHead.Location = new System.Drawing.Point(12, 33);
+            this.lblHead.Name = "lblHead";
+            this.lblHead.Size = new System.Drawing.Size(580, 33);
+            this.lblHead.TabIndex = 0;
+            this.lblHead.Text = "LARGE FORMAT  REPLACEMENT SHEET";
+            this.lblHead.DoubleClick += new System.EventHandler(this.lblHead_DoubleClick);
+            this.lblHead.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label2_MouseDown);
+            this.lblHead.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label2_MouseMove);
+            this.lblHead.MouseUp += new System.Windows.Forms.MouseEventHandler(this.label2_MouseUp);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(201, 111);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 36);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "ADD";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // bunifuFlatButton1
             // 
@@ -158,7 +215,7 @@
             this.bunifuFlatButton1.IconVisible = true;
             this.bunifuFlatButton1.IconZoom = 60D;
             this.bunifuFlatButton1.IsTab = false;
-            this.bunifuFlatButton1.Location = new System.Drawing.Point(946, 114);
+            this.bunifuFlatButton1.Location = new System.Drawing.Point(840, 111);
             this.bunifuFlatButton1.Name = "bunifuFlatButton1";
             this.bunifuFlatButton1.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
             this.bunifuFlatButton1.OnHovercolor = System.Drawing.Color.White;
@@ -171,59 +228,49 @@
             this.bunifuFlatButton1.Textcolor = System.Drawing.Color.White;
             this.bunifuFlatButton1.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // bfbtnPrint
+            // printdoc1
             // 
-            this.bfbtnPrint.ActiveBorderThickness = 1;
-            this.bfbtnPrint.ActiveCornerRadius = 20;
-            this.bfbtnPrint.ActiveFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
-            this.bfbtnPrint.ActiveForecolor = System.Drawing.Color.White;
-            this.bfbtnPrint.ActiveLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
-            this.bfbtnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.bfbtnPrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bfbtnPrint.BackgroundImage")));
-            this.bfbtnPrint.ButtonText = "Print";
-            this.bfbtnPrint.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bfbtnPrint.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bfbtnPrint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
-            this.bfbtnPrint.IdleBorderThickness = 1;
-            this.bfbtnPrint.IdleCornerRadius = 20;
-            this.bfbtnPrint.IdleFillColor = System.Drawing.Color.White;
-            this.bfbtnPrint.IdleForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
-            this.bfbtnPrint.IdleLineColor = System.Drawing.Color.SeaShell;
-            this.bfbtnPrint.Location = new System.Drawing.Point(6, 445);
-            this.bfbtnPrint.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.bfbtnPrint.Name = "bfbtnPrint";
-            this.bfbtnPrint.Size = new System.Drawing.Size(173, 43);
-            this.bfbtnPrint.TabIndex = 0;
-            this.bfbtnPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.printdoc1.OriginAtMargins = true;
+            this.printdoc1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printdoc1_PrintPage);
             // 
-            // picHamb
+            // previewdlg
             // 
-            this.picHamb.BackgroundImage = global::Labels.Properties.Resources.icons8_menu_filled_500;
-            this.picHamb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picHamb.Location = new System.Drawing.Point(147, 8);
-            this.picHamb.Name = "picHamb";
-            this.picHamb.Size = new System.Drawing.Size(30, 30);
-            this.picHamb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picHamb.TabIndex = 1;
-            this.picHamb.TabStop = false;
-            this.picHamb.Click += new System.EventHandler(this.picHamb_Click);
+            this.previewdlg.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.previewdlg.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.previewdlg.ClientSize = new System.Drawing.Size(400, 300);
+            this.previewdlg.Document = this.printdoc1;
+            this.previewdlg.Enabled = true;
+            this.previewdlg.Icon = ((System.Drawing.Icon)(resources.GetObject("previewdlg.Icon")));
+            this.previewdlg.Name = "previewdlg";
+            this.previewdlg.Visible = false;
             // 
-            // button1
+            // label2
             // 
-            this.button1.Location = new System.Drawing.Point(201, 113);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 36);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "ADD";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(0, 421);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(607, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "- - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+    "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+    "- - - - - - - - - - - - - - - - - - - -";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(51, 83);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // mainLabels
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1033, 647);
+            this.ClientSize = new System.Drawing.Size(929, 723);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.bunifuFlatButton1);
             this.Controls.Add(this.pnlImgViewer);
@@ -238,10 +285,10 @@
             this.pnlHeader.PerformLayout();
             this.pnlSide.ResumeLayout(false);
             this.pnlSideContents.ResumeLayout(false);
-            this.pnlImgViewer.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHamb)).EndInit();
+            this.pnlImgViewer.ResumeLayout(false);
+            this.pnlPage.ResumeLayout(false);
+            this.pnlPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -256,9 +303,13 @@
         private System.Windows.Forms.PictureBox picHamb;
         private System.Windows.Forms.Panel pnlSideContents;
         private System.Windows.Forms.Panel pnlImgViewer;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Panel pnlPage;
+        private System.Windows.Forms.Label lblHead;
         private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton1;
         private System.Windows.Forms.Button button1;
+        private System.Drawing.Printing.PrintDocument printdoc1;
+        private System.Windows.Forms.PrintPreviewDialog previewdlg;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button2;
     }
 }

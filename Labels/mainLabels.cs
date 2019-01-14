@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace Labels
 {
@@ -19,6 +23,10 @@ namespace Labels
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
+
+        Bitmap MemoryImage;
+        Panel pannel = null;
+
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -33,10 +41,18 @@ namespace Labels
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Rectangle rc = new Rectangle(this.ClientSize.Width - cGrip, this.ClientSize.Height - cGrip, cGrip, cGrip);
-            ControlPaint.DrawSizeGrip(e.Graphics, this.BackColor, rc);
-            rc = new Rectangle(0, 0, this.ClientSize.Width, cCaption);
-            e.Graphics.FillRectangle(Brushes.DarkBlue, rc);
+            //Rectangle rc = new Rectangle(this.ClientSize.Width - cGrip, this.ClientSize.Height - cGrip, cGrip, cGrip);
+            //ControlPaint.DrawSizeGrip(e.Graphics, this.BackColor, rc);
+            //rc = new Rectangle(0, 0, this.ClientSize.Width, cCaption);
+            //e.Graphics.FillRectangle(Brushes.DarkBlue, rc);
+
+            //base.OnPaint(e);
+            //pnlPage.CreateGraphics().DrawLines(new Pen(Color.Black),
+            //  new Point[] { new Point(10, 10), new Point(50, 50) });
+
+
+           
+            base.OnPaint(e);
         }
 
         protected override void WndProc(ref Message m)
@@ -59,20 +75,7 @@ namespace Labels
             base.WndProc(ref m);
         }
 
-
         
-
-
-
-
-
-
-
-
-
-
-
-
 
         private void mainLabels_Load(object sender, EventArgs e)
         {
@@ -109,6 +112,7 @@ namespace Labels
             this.WindowState = FormWindowState.Minimized;
         }
 
+        // Hamburger click, close / open
         private void picHamb_Click(object sender, EventArgs e)
         {
             if(pnlSide.Width == 185)
@@ -138,7 +142,7 @@ namespace Labels
             b.MouseUp += (s, e2) => { this.BtnDragging = false; };
             b.MouseDown += new MouseEventHandler(this.b_MouseDown);
             b.MouseMove += new MouseEventHandler(this.b_MouseMove);
-            this.panel1.Controls.Add(b);
+            this.pnlPage.Controls.Add(b);
         }
 
         private void b_MouseDown(object sender, MouseEventArgs e)
@@ -152,7 +156,7 @@ namespace Labels
         }
 
 
-        private void DragControlDown(object sender)
+        public void DragControlDown(object sender)
         {
             Label ct = sender as Label;
             ct.Capture = true;
@@ -161,7 +165,7 @@ namespace Labels
             this.BtnDragging = true;
         }
 
-        private void DragControlMove(object sender)
+        public void DragControlMove(object sender)
         {
             if (this.BtnDragging)
             {
@@ -171,11 +175,12 @@ namespace Labels
             }
         }
 
-        private void DragMouseUp()
+        public void DragMouseUp()
         {
             this.BtnDragging = false;
         }
-
+        
+        // == HEADER LABEL
         private void label2_MouseDown(object sender, MouseEventArgs e)
         {
             DragControlDown(sender);
@@ -190,5 +195,89 @@ namespace Labels
         {
             DragControlMove(sender);
         }
+
+        private void lblHead_DoubleClick(object sender, EventArgs e)
+        {
+            int index = pnlPage.Controls.IndexOf(lblHead);
+
+            //MessageBox.Show($"Head: {index}");
+
+            Update update = new Update(index,lblHead.Text);
+            update.Show();
+        }
+
+        // END HEADER LABEL
+
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    base.OnPaint(e);
+        //    pnlPage.CreateGraphics().DrawLines(new Pen(Color.Black),
+        //      new Point[] { new Point(10, 10), new Point(50, 50) });
+        //}
+
+
+        
+
+
+        private void bfbtnPrint_Click(object sender, EventArgs e)
+        {
+            Print(pnlPage);
+        }
+
+        public void GetPrintArea(Panel pnl)
+        {
+            MemoryImage = new Bitmap(pnl.Width, pnl.Height, pnl.CreateGraphics());
+            Rectangle rect = new Rectangle(0, 0, pnl.Width, pnl.Height);
+            pnl.DrawToBitmap(MemoryImage, new Rectangle(0, 0, pnl.Width, pnl.Height));
+        }
+
+        private void printdoc1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Rectangle pagearea = e.PageBounds;
+            e.Graphics.DrawImage(MemoryImage, (pagearea.Width) - (this.pnlPage.Width), this.pnlPage.Location.Y);
+        }
+
+        public void Print(Panel pnl)
+        {
+            try
+            {
+                pannel = pnl;
+
+                PaperSize pp = new PaperSize("A5", 595, 842);
+                printdoc1.DefaultPageSettings.PaperSize = pp;
+                printdoc1.PrinterSettings.DefaultPageSettings.PaperSize = pp;
+                //printdoc1.PrinterSettings.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+
+                GetPrintArea(pnl);
+                previewdlg.Width = pnlPage.Width;
+                previewdlg.Height = pnlPage.Height;
+                previewdlg.Document = printdoc1;
+
+                previewdlg.ShowDialog();
+            } catch (Exception)
+            {
+
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MemoryStream ms = new MemoryStream();
+            Bitmap bmp = new Bitmap(pnlPage.Width, pnlPage.Height);
+            pnlPage.DrawToBitmap(bmp, new System.Drawing.Rectangle(0, 0, pnlPage.Width, pnlPage.Height));
+             //you could ave in BPM, PNG  etc format.
+            byte[] Pic_arr = new byte[ms.Length];
+            ms.Position = 0;
+            ms.Read(Pic_arr, 0, Pic_arr.Length);
+            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            ms.Close();
+
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+            sf.ShowDialog();
+            var path = sf.FileName;
+            }
+
+        //PRINT PANEL
     }
 }
