@@ -34,23 +34,28 @@
             this.lblClose = new System.Windows.Forms.Label();
             this.pnlSide = new System.Windows.Forms.Panel();
             this.pnlSideContents = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.bfbtnPrint = new Bunifu.Framework.UI.BunifuThinButton2();
             this.picHamb = new System.Windows.Forms.PictureBox();
             this.pnlImgViewer = new System.Windows.Forms.Panel();
             this.pnlPage = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblHead = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.printdoc1 = new System.Drawing.Printing.PrintDocument();
             this.previewdlg = new System.Windows.Forms.PrintPreviewDialog();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
             this.pnlSide.SuspendLayout();
             this.pnlSideContents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHamb)).BeginInit();
             this.pnlImgViewer.SuspendLayout();
             this.pnlPage.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -61,7 +66,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(929, 107);
+            this.pnlHeader.Size = new System.Drawing.Size(1064, 107);
             this.pnlHeader.TabIndex = 0;
             this.pnlHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlHeader_MouseDown);
             // 
@@ -70,7 +75,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(863, 0);
+            this.label1.Location = new System.Drawing.Point(997, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(22, 26);
             this.label1.TabIndex = 3;
@@ -82,7 +87,7 @@
             this.lblClose.AutoSize = true;
             this.lblClose.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblClose.ForeColor = System.Drawing.Color.White;
-            this.lblClose.Location = new System.Drawing.Point(892, 3);
+            this.lblClose.Location = new System.Drawing.Point(1026, 9);
             this.lblClose.Name = "lblClose";
             this.lblClose.Size = new System.Drawing.Size(26, 26);
             this.lblClose.TabIndex = 2;
@@ -97,7 +102,7 @@
             this.pnlSide.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSide.Location = new System.Drawing.Point(0, 107);
             this.pnlSide.Name = "pnlSide";
-            this.pnlSide.Size = new System.Drawing.Size(185, 616);
+            this.pnlSide.Size = new System.Drawing.Size(185, 657);
             this.pnlSide.TabIndex = 1;
             // 
             // pnlSideContents
@@ -105,10 +110,20 @@
             this.pnlSideContents.Controls.Add(this.button2);
             this.pnlSideContents.Controls.Add(this.bfbtnPrint);
             this.pnlSideContents.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlSideContents.Location = new System.Drawing.Point(0, 44);
+            this.pnlSideContents.Location = new System.Drawing.Point(0, 46);
             this.pnlSideContents.Name = "pnlSideContents";
-            this.pnlSideContents.Size = new System.Drawing.Size(185, 572);
+            this.pnlSideContents.Size = new System.Drawing.Size(185, 611);
             this.pnlSideContents.TabIndex = 2;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 532);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // bfbtnPrint
             // 
@@ -128,7 +143,7 @@
             this.bfbtnPrint.IdleFillColor = System.Drawing.Color.White;
             this.bfbtnPrint.IdleForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
             this.bfbtnPrint.IdleLineColor = System.Drawing.Color.SeaShell;
-            this.bfbtnPrint.Location = new System.Drawing.Point(6, 496);
+            this.bfbtnPrint.Location = new System.Drawing.Point(6, 563);
             this.bfbtnPrint.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.bfbtnPrint.Name = "bfbtnPrint";
             this.bfbtnPrint.Size = new System.Drawing.Size(173, 43);
@@ -152,31 +167,44 @@
             // 
             this.pnlImgViewer.AutoScroll = true;
             this.pnlImgViewer.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlImgViewer.Controls.Add(this.pnlPage);
+            this.pnlImgViewer.Controls.Add(this.panel1);
             this.pnlImgViewer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlImgViewer.Location = new System.Drawing.Point(185, 151);
+            this.pnlImgViewer.Location = new System.Drawing.Point(185, 153);
             this.pnlImgViewer.Name = "pnlImgViewer";
-            this.pnlImgViewer.Size = new System.Drawing.Size(744, 572);
+            this.pnlImgViewer.Size = new System.Drawing.Size(879, 611);
             this.pnlImgViewer.TabIndex = 2;
             // 
             // pnlPage
             // 
             this.pnlPage.BackColor = System.Drawing.Color.White;
+            this.pnlPage.Controls.Add(this.label4);
+            this.pnlPage.Controls.Add(this.flowLayoutPanel1);
+            this.pnlPage.Controls.Add(this.label3);
             this.pnlPage.Controls.Add(this.label2);
             this.pnlPage.Controls.Add(this.lblHead);
-            this.pnlPage.Location = new System.Drawing.Point(53, 20);
+            this.pnlPage.Location = new System.Drawing.Point(3, 4);
             this.pnlPage.Name = "pnlPage";
-            this.pnlPage.Size = new System.Drawing.Size(595, 842);
+            this.pnlPage.Size = new System.Drawing.Size(823, 1059);
             this.pnlPage.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 574);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(809, 37);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
             // 
             // lblHead
             // 
             this.lblHead.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblHead.AutoSize = true;
-            this.lblHead.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHead.Location = new System.Drawing.Point(12, 33);
+            this.lblHead.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHead.Location = new System.Drawing.Point(66, 77);
             this.lblHead.Name = "lblHead";
-            this.lblHead.Size = new System.Drawing.Size(580, 33);
+            this.lblHead.Size = new System.Drawing.Size(690, 39);
             this.lblHead.TabIndex = 0;
             this.lblHead.Text = "LARGE FORMAT  REPLACEMENT SHEET";
             this.lblHead.DoubleClick += new System.EventHandler(this.lblHead_DoubleClick);
@@ -215,7 +243,7 @@
             this.bunifuFlatButton1.IconVisible = true;
             this.bunifuFlatButton1.IconZoom = 60D;
             this.bunifuFlatButton1.IsTab = false;
-            this.bunifuFlatButton1.Location = new System.Drawing.Point(840, 111);
+            this.bunifuFlatButton1.Location = new System.Drawing.Point(972, 111);
             this.bunifuFlatButton1.Name = "bunifuFlatButton1";
             this.bunifuFlatButton1.Normalcolor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(126)))), ((int)(((byte)(163)))));
             this.bunifuFlatButton1.OnHovercolor = System.Drawing.Color.White;
@@ -244,33 +272,51 @@
             this.previewdlg.Name = "previewdlg";
             this.previewdlg.Visible = false;
             // 
-            // label2
+            // label3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 421);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(607, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "- - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
-    "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
-    "- - - - - - - - - - - - - - - - - - - -";
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(60, 125);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(702, 31);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "-------- LARGE FORMAT  REPLACEMENT SHEET --------";
             // 
-            // button2
+            // panel1
             // 
-            this.button2.Location = new System.Drawing.Point(51, 83);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.panel1.Controls.Add(this.pnlPage);
+            this.panel1.Location = new System.Drawing.Point(16, 14);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(830, 1078);
+            this.panel1.TabIndex = 1;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Silver;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(208, 188);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(413, 182);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(224, 452);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(368, 73);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "#LF006499";
             // 
             // mainLabels
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(929, 723);
+            this.ClientSize = new System.Drawing.Size(1064, 764);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.bunifuFlatButton1);
             this.Controls.Add(this.pnlImgViewer);
@@ -289,6 +335,7 @@
             this.pnlImgViewer.ResumeLayout(false);
             this.pnlPage.ResumeLayout(false);
             this.pnlPage.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -311,5 +358,9 @@
         private System.Windows.Forms.PrintPreviewDialog previewdlg;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Drawing.Imaging;
+using ZXing;
+using Zen.Barcode;
 
 namespace Labels
 {
@@ -135,9 +137,9 @@ namespace Labels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var b = new Button();
-            b.Text = "My Button";
-            b.Name = "button";
+            var b = new Label();
+            b.Text = "Text2";
+            b.Name = "text2";
             //b.Click += new EventHandler(b_Click);
             b.MouseUp += (s, e2) => { this.BtnDragging = false; };
             b.MouseDown += new MouseEventHandler(this.b_MouseDown);
@@ -231,10 +233,27 @@ namespace Labels
             pnl.DrawToBitmap(MemoryImage, new Rectangle(0, 0, pnl.Width, pnl.Height));
         }
 
+
+        int noPages = 0;
+
         private void printdoc1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Rectangle pagearea = e.PageBounds;
-            e.Graphics.DrawImage(MemoryImage, (pagearea.Width) - (this.pnlPage.Width), this.pnlPage.Location.Y);
+            //Rectangle pagearea = e.PageBounds;
+            //e.Graphics.DrawImage(MemoryImage, (pagearea.Width) - (this.pnlPage.Width), this.pnlPage.Location.Y);
+            
+            
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            GetPrintArea(pnlPage, e.Graphics);
+
+            e.HasMorePages = true;
+
+            noPages++;
+            if (noPages == 3)
+            {
+                e.HasMorePages = false;
+            }
         }
 
         public void Print(Panel pnl)
@@ -262,22 +281,216 @@ namespace Labels
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MemoryStream ms = new MemoryStream();
-            Bitmap bmp = new Bitmap(pnlPage.Width, pnlPage.Height);
-            pnlPage.DrawToBitmap(bmp, new System.Drawing.Rectangle(0, 0, pnlPage.Width, pnlPage.Height));
-             //you could ave in BPM, PNG  etc format.
-            byte[] Pic_arr = new byte[ms.Length];
-            ms.Position = 0;
-            ms.Read(Pic_arr, 0, Pic_arr.Length);
-            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-            ms.Close();
+            successfullyPrint();
+        }
 
-            SaveFileDialog sf = new SaveFileDialog();
-            sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
-            sf.ShowDialog();
-            var path = sf.FileName;
-            }
+        private void successfullyPrint()
+        {
+            printdoc1.OriginAtMargins = true;
+            PrinterSettings ps = new PrinterSettings();
+            printdoc1.PrinterSettings = ps;
+            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4);
+            printdoc1.DefaultPageSettings.PaperSize = sizeA4;
+
+            this.printdoc1.DefaultPageSettings.PaperSize.RawKind = 300;
+
+            printdoc1.DefaultPageSettings.Margins = new System.Drawing.Printing.Margins(0, 0, 0, 0);
+
+
+            previewdlg.Document = printdoc1;
+            previewdlg.ShowDialog();
+
+            //printdoc1.Print();
+
+
+        }
+
 
         //PRINT PANEL
+
+
+        private void printDynamicallyConvert()
+        {
+            const int dotsPerInch = 600;    // define the quality in DPI
+            const double widthInInch = 8.27;   // width of the bitmap in INCH
+            const double heightInInch = 11.69;  // height of the bitmap in INCH
+
+            using (Bitmap bitmap = new Bitmap((int)(widthInInch * dotsPerInch), (int)(heightInInch * dotsPerInch)))
+            
+            {
+                bitmap.SetResolution(dotsPerInch, dotsPerInch);
+
+                using (Font font = new Font("Microsoft Sans Serif", 21.75f, FontStyle.Regular, GraphicsUnit.Point))
+                using (Brush brush = Brushes.Black)
+                using (Pen blackPen = new Pen(Color.Black, 3))
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    graphics.Clear(Color.White);
+                    graphics.DrawString("LARGE FORMAT REPLACMENT SHEET", font, brush, 12, 33);
+                    graphics.DrawRectangle(blackPen, 1, 1, 590, 421);
+                }
+                // Save the bitmap
+
+
+
+
+
+
+
+                SaveFileDialog sf = new SaveFileDialog();
+                sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+                sf.ShowDialog();
+                var path = sf.FileName;
+                bitmap.Save(path);
+                // Print the bitmap
+                //using (PrintDocument printDocument = new PrintDocument())
+                //{
+                //    printDocument.PrintPage += (object sender, PrintPageEventArgs e) =>
+                //    {
+                //        e.Graphics.DrawImage(bitmap, 0, 0);
+                //    };
+                //    printDocument.Print();
+                //}
+            }
+
+
+
+        }
+
+        public void GetPrintArea(Panel pnl, Graphics gr)
+        {
+            // scale to fit on width of page...
+            if (pnl.Width > 0)
+            {
+                //gr.PageScale = gr.VisibleClipBounds.Width / pnl.Width;
+            }
+
+
+            const int dotsPerInch = 300;    // define the quality in DPI
+            const double widthInInch = 8.27;   // width of the bitmap in INCH
+            const double heightInInch = 11.69;  // height of the bitmap in INCH
+            using (Bitmap bitmap = new Bitmap((int)(widthInInch * dotsPerInch), (int)(heightInInch * dotsPerInch)))
+
+            {
+                bitmap.SetResolution(dotsPerInch, dotsPerInch);
+
+               
+                using (Brush brush = Brushes.Black)
+                using (Pen blackPen = new Pen(Color.Black, 4))
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+
+                    // this should recurse...
+                    // just for demo so kept it simple
+                    foreach (var ctl in pnl.Controls)
+                    {
+                        // for every control type
+                        // come up with a way to Draw its
+                        // contents
+                        if (ctl is Label)
+                        {
+                            var lbl = (Label)ctl;
+                            gr.DrawString(
+                                lbl.Text,
+                                lbl.Font,
+                                new SolidBrush(lbl.ForeColor),
+                                lbl.Location.X,  // simple based on the position in the panel
+                                lbl.Location.Y);
+                        }
+                        if (ctl is FlowLayoutPanel)
+                        {
+                            var pic = (FlowLayoutPanel)ctl;
+
+                            Code39BarcodeDraw barcode39 = BarcodeDrawFactory.Code39WithoutChecksum;
+                            Image bar1 = barcode39.Draw(noPages.ToString(), 80, 2);
+                            gr.DrawImage(bar1, pic.Location.X, pic.Location.Y);
+
+
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            //var barcodeWriter = new BarcodeWriter();
+
+                            //barcodeWriter.Format = BarcodeFormat.CODE_39;
+
+                            //barcodeWriter.Options = new ZXing.Common.EncodingOptions
+                            //{
+                            //    Height = 182,
+                            //    Width = 413,
+                            //    Margin = 1,
+                            //    PureBarcode = true
+                            //};
+
+
+
+
+                            //using (Bitmap bp = barcodeWriter.Write("#LF006499"))
+                            //{
+                            //    gr.DrawImageUnscaledAndClipped(bp, new Rectangle(
+                            //        pic.Location.X,
+                            //        pic.Location.Y,
+                            //        pic.Width,
+                            //        pic.Height));
+                            //}
+                        }
+                    }
+
+
+                    //SaveFileDialog sf = new SaveFileDialog();
+                    //sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+                    //sf.ShowDialog();
+                    //var path = sf.FileName;
+                    //bitmap.Save(path);
+                }
+            }
+            
+
+
+
+        }
+
+        private void printertest(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            GetPrintArea(pnlPage, e.Graphics);
+        }
+
+
+
+
+
+
+
+
+
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
+        }
     }
 }
