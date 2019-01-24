@@ -38,24 +38,24 @@
             this.bfbtnPrint = new Bunifu.Framework.UI.BunifuThinButton2();
             this.picHamb = new System.Windows.Forms.PictureBox();
             this.pnlImgViewer = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pnlPage = new System.Windows.Forms.Panel();
+            this.lblNumber = new System.Windows.Forms.Label();
+            this.flowBarcode = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblSubHead = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblHead = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.bunifuFlatButton1 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.printdoc1 = new System.Drawing.Printing.PrintDocument();
             this.previewdlg = new System.Windows.Forms.PrintPreviewDialog();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
             this.pnlSide.SuspendLayout();
             this.pnlSideContents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHamb)).BeginInit();
             this.pnlImgViewer.SuspendLayout();
-            this.pnlPage.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.pnlPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -174,24 +174,76 @@
             this.pnlImgViewer.Size = new System.Drawing.Size(879, 611);
             this.pnlImgViewer.TabIndex = 2;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pnlPage);
+            this.panel1.Location = new System.Drawing.Point(16, 14);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(830, 1078);
+            this.panel1.TabIndex = 1;
+            // 
             // pnlPage
             // 
             this.pnlPage.BackColor = System.Drawing.Color.White;
-            this.pnlPage.Controls.Add(this.label4);
-            this.pnlPage.Controls.Add(this.flowLayoutPanel1);
-            this.pnlPage.Controls.Add(this.label3);
+            this.pnlPage.Controls.Add(this.lblNumber);
+            this.pnlPage.Controls.Add(this.flowBarcode);
+            this.pnlPage.Controls.Add(this.lblSubHead);
             this.pnlPage.Controls.Add(this.label2);
             this.pnlPage.Controls.Add(this.lblHead);
             this.pnlPage.Location = new System.Drawing.Point(3, 4);
             this.pnlPage.Name = "pnlPage";
             this.pnlPage.Size = new System.Drawing.Size(823, 1059);
             this.pnlPage.TabIndex = 0;
+            this.pnlPage.Click += new System.EventHandler(this.pnlPage_Click);
+            this.pnlPage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlPage_MouseDown);
+            this.pnlPage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlPage_MouseMove);
+            this.pnlPage.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlPage_MouseUp);
+            // 
+            // lblNumber
+            // 
+            this.lblNumber.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblNumber.AutoSize = true;
+            this.lblNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumber.Location = new System.Drawing.Point(139, 426);
+            this.lblNumber.Name = "lblNumber";
+            this.lblNumber.Size = new System.Drawing.Size(537, 108);
+            this.lblNumber.TabIndex = 4;
+            this.lblNumber.Text = "#LF006499";
+            this.lblNumber.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblNumber_MouseDown);
+            this.lblNumber.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblNumber_MouseMove);
+            this.lblNumber.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblNumber_MouseUp);
+            // 
+            // flowBarcode
+            // 
+            this.flowBarcode.AutoSize = true;
+            this.flowBarcode.BackColor = System.Drawing.Color.Silver;
+            this.flowBarcode.Location = new System.Drawing.Point(208, 225);
+            this.flowBarcode.Name = "flowBarcode";
+            this.flowBarcode.Size = new System.Drawing.Size(413, 100);
+            this.flowBarcode.TabIndex = 3;
+            this.flowBarcode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.flowBarcode_MouseDown);
+            this.flowBarcode.MouseMove += new System.Windows.Forms.MouseEventHandler(this.flowBarcode_MouseMove);
+            this.flowBarcode.MouseUp += new System.Windows.Forms.MouseEventHandler(this.flowBarcode_MouseUp);
+            // 
+            // lblSubHead
+            // 
+            this.lblSubHead.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblSubHead.AutoSize = true;
+            this.lblSubHead.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubHead.Location = new System.Drawing.Point(60, 125);
+            this.lblSubHead.Name = "lblSubHead";
+            this.lblSubHead.Size = new System.Drawing.Size(702, 31);
+            this.lblSubHead.TabIndex = 2;
+            this.lblSubHead.Text = "-------- LARGE FORMAT  REPLACEMENT SHEET --------";
+            this.lblSubHead.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblSubHead_MouseDown);
+            this.lblSubHead.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblSubHead_MouseMove);
+            this.lblSubHead.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblSubHead_MouseUp);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Tai Le", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 574);
+            this.label2.Location = new System.Drawing.Point(6, 573);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(809, 37);
             this.label2.TabIndex = 1;
@@ -260,6 +312,7 @@
             // 
             this.printdoc1.OriginAtMargins = true;
             this.printdoc1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printdoc1_PrintPage);
+            this.printdoc1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printdoc1_QueryPageSettings);
             // 
             // previewdlg
             // 
@@ -271,45 +324,6 @@
             this.previewdlg.Icon = ((System.Drawing.Icon)(resources.GetObject("previewdlg.Icon")));
             this.previewdlg.Name = "previewdlg";
             this.previewdlg.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(60, 125);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(702, 31);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "-------- LARGE FORMAT  REPLACEMENT SHEET --------";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.pnlPage);
-            this.panel1.Location = new System.Drawing.Point(16, 14);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(830, 1078);
-            this.panel1.TabIndex = 1;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Silver;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(208, 188);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(413, 182);
-            this.flowLayoutPanel1.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(224, 452);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(368, 73);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "#LF006499";
             // 
             // mainLabels
             // 
@@ -333,9 +347,9 @@
             this.pnlSideContents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picHamb)).EndInit();
             this.pnlImgViewer.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.pnlPage.ResumeLayout(false);
             this.pnlPage.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -358,9 +372,9 @@
         private System.Windows.Forms.PrintPreviewDialog previewdlg;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblSubHead;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.FlowLayoutPanel flowBarcode;
+        private System.Windows.Forms.Label lblNumber;
     }
 }

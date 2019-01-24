@@ -24,12 +24,14 @@ namespace Labels
             this.FormBorderStyle = FormBorderStyle.None;
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+
+            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+            this.WindowState = FormWindowState.Maximized;
         }
 
         Bitmap MemoryImage;
         Panel pannel = null;
-
-
+        
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
@@ -76,15 +78,12 @@ namespace Labels
             }
             base.WndProc(ref m);
         }
-
         
-
         private void mainLabels_Load(object sender, EventArgs e)
         {
             
         }
-
-
+        
         // == Drag Form Functions ==
         private void mainLabels_MouseDown(object sender, MouseEventArgs e)
         {
@@ -129,8 +128,7 @@ namespace Labels
                 picHamb.Location = new Point(147, picHamb.Location.Y);
             }
         }
-
-
+        
         private Point Origin_Cursor;
         private Point Origin_Control;
         private bool BtnDragging = false;
@@ -156,8 +154,7 @@ namespace Labels
         {
             DragControlMove(sender);
         }
-
-
+        
         public void DragControlDown(object sender)
         {
             Label ct = sender as Label;
@@ -181,22 +178,133 @@ namespace Labels
         {
             this.BtnDragging = false;
         }
-        
+
+
+        public void DragControlDownBarcode(object sender)
+        {
+            FlowLayoutPanel ct = sender as FlowLayoutPanel;
+            ct.Capture = true;
+            this.Origin_Cursor = System.Windows.Forms.Cursor.Position;
+            this.Origin_Control = ct.Location;
+            this.BtnDragging = true;
+        }
+
+        public void DragControlMoveBarcode(object sender)
+        {
+            if (this.BtnDragging)
+            {
+                FlowLayoutPanel ct = sender as FlowLayoutPanel;
+                ct.Left = this.Origin_Control.X - (this.Origin_Cursor.X - Cursor.Position.X);
+                ct.Top = this.Origin_Control.Y - (this.Origin_Cursor.Y - Cursor.Position.Y);
+            }
+        }
+
+        // == PANEL ==
+        public void DragControlDownPanel(object sender)
+        {
+            Panel ct = panel1;
+            ct.Capture = true;
+            this.Origin_Cursor = System.Windows.Forms.Cursor.Position;
+            this.Origin_Control = ct.Location;
+            this.BtnDragging = true;
+        }
+
+        public void DragControlMovePanel(object sender)
+        {
+            if (this.BtnDragging)
+            {
+                Panel ct = panel1;
+                ct.Left = this.Origin_Control.X - (this.Origin_Cursor.X - Cursor.Position.X);
+                ct.Top = this.Origin_Control.Y - (this.Origin_Cursor.Y - Cursor.Position.Y);
+            }
+        }
+
+
+
+
+
         // == HEADER LABEL
         private void label2_MouseDown(object sender, MouseEventArgs e)
         {
             DragControlDown(sender);
         }
 
+        private void label2_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragControlMove(sender);
+        }
         private void label2_MouseUp(object sender, MouseEventArgs e)
         {
             DragMouseUp();
         }
 
-        private void label2_MouseMove(object sender, MouseEventArgs e)
+        
+
+        // == SUB HEADER LABEL
+        private void lblSubHead_MouseDown(object sender, MouseEventArgs e)
+        {
+            DragControlDown(sender);
+        }
+
+        private void lblSubHead_MouseMove(object sender, MouseEventArgs e)
         {
             DragControlMove(sender);
         }
+
+        private void lblSubHead_MouseUp(object sender, MouseEventArgs e)
+        {
+            DragMouseUp();
+        }
+
+
+        // == BARCODE 
+        private void flowBarcode_MouseDown(object sender, MouseEventArgs e)
+        {
+            DragControlDownBarcode(sender);
+        }
+
+        private void flowBarcode_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragControlMoveBarcode(sender);
+        }
+
+        private void flowBarcode_MouseUp(object sender, MouseEventArgs e)
+        {
+            DragMouseUp();
+        }
+
+        // == NUMBER
+        private void lblNumber_MouseDown(object sender, MouseEventArgs e)
+        {
+            DragControlDown(sender);
+        }
+
+        private void lblNumber_MouseMove(object sender, MouseEventArgs e)
+        {
+            DragControlMove(sender);
+        }
+
+        private void lblNumber_MouseUp(object sender, MouseEventArgs e)
+        {
+            DragMouseUp();
+        }
+
+        // == PANEL
+        private void pnlPage_MouseDown(object sender, MouseEventArgs e)
+        {
+            //DragControlDownPanel(sender);
+        }
+
+        private void pnlPage_MouseMove(object sender, MouseEventArgs e)
+        {
+            //DragControlMovePanel(sender);
+        }
+
+        private void pnlPage_MouseUp(object sender, MouseEventArgs e)
+        {
+            //DragMouseUp();
+        }
+
 
         private void lblHead_DoubleClick(object sender, EventArgs e)
         {
@@ -216,44 +324,108 @@ namespace Labels
         //    pnlPage.CreateGraphics().DrawLines(new Pen(Color.Black),
         //      new Point[] { new Point(10, 10), new Point(50, 50) });
         //}
-
-
         
-
-
         private void bfbtnPrint_Click(object sender, EventArgs e)
         {
             Print(pnlPage);
         }
 
-        public void GetPrintArea(Panel pnl)
-        {
-            MemoryImage = new Bitmap(pnl.Width, pnl.Height, pnl.CreateGraphics());
-            Rectangle rect = new Rectangle(0, 0, pnl.Width, pnl.Height);
-            pnl.DrawToBitmap(MemoryImage, new Rectangle(0, 0, pnl.Width, pnl.Height));
-        }
+        //public void GetPrintArea(Panel pnl)
+        //{
+        //    MemoryImage = new Bitmap(pnl.Width, pnl.Height, pnl.CreateGraphics());
+        //    Rectangle rect = new Rectangle(0, 0, pnl.Width, pnl.Height);
+        //    pnl.DrawToBitmap(MemoryImage, new Rectangle(0, 0, pnl.Width, pnl.Height));
+        //}
 
 
-        int noPages = 0;
+        int totalPages = 3;
+         
 
         private void printdoc1_PrintPage(object sender, PrintPageEventArgs e)
         {
             //Rectangle pagearea = e.PageBounds;
             //e.Graphics.DrawImage(MemoryImage, (pagearea.Width) - (this.pnlPage.Width), this.pnlPage.Location.Y);
-            
-            
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            GetPrintArea(pnlPage, e.Graphics);
 
-            e.HasMorePages = true;
 
-            noPages++;
-            if (noPages == 3)
+            //e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            //GetPrintArea(pnlPage, e.Graphics);
+
+
+
+            //noPages++;
+            //if (noPages == 2)
+            //{
+            //    e.HasMorePages = false;
+            //    noPages = 0;
+            //} else
+            //{
+            //    e.HasMorePages = true;
+            //}
+
+            const int dotsPerInch = 300;    // define the quality in DPI
+            const double widthInInch = 8.27;   // width of the bitmap in INCH
+            const double heightInInch = 11.69;  // height of the bitmap in INCH
+            while (noPages < totalPages)
+            {
+                Bitmap bitmap = new Bitmap((int)(widthInInch * dotsPerInch), (int)(heightInInch * dotsPerInch));
+                Brush brush = Brushes.Black;
+                Pen blackPen = new Pen(Color.Black, 4);
+                Graphics graphics = Graphics.FromImage(GlobalV.changeBar);
+
+
+                Rectangle rect = new Rectangle(40, 50, 768, 525);
+
+                Pen pen = new Pen(Color.Black, 2);
+                pen.Alignment = PenAlignment.Inset; //<-- this
+                e.Graphics.DrawRectangle(pen, rect);
+
+                // this should recurse...
+                // just for demo so kept it simple
+                foreach (var ctl in pnlPage.Controls)
+                {
+                    // for every control type
+                    // come up with a way to Draw its
+                    // contents
+                    if (ctl is Label)
+                    {
+                        var lbl = (Label)ctl;
+                        e.Graphics.DrawString(
+                            lbl.Text,
+                            lbl.Font,
+                            new SolidBrush(lbl.ForeColor),
+                            lbl.Location.X,  // simple based on the position in the panel
+                            lbl.Location.Y);
+                    }
+                    else if (ctl is FlowLayoutPanel)
+                    {
+                        var pic = (FlowLayoutPanel)ctl;
+
+
+                        e.Graphics.DrawImage(GlobalV.changeBar, pic.Location.X, pic.Location.Y);
+
+                    }
+                }
+
+                if (noPages < totalPages)
+                {
+                    e.HasMorePages = true;
+                    noPages++;
+                    return;
+                } else
+                {
+                    e.HasMorePages = false;
+                }
+                
+
+            }
+
+            if (noPages >= totalPages)
             {
                 e.HasMorePages = false;
             }
+
         }
 
         public void Print(Panel pnl)
@@ -267,7 +439,7 @@ namespace Labels
                 printdoc1.PrinterSettings.DefaultPageSettings.PaperSize = pp;
                 //printdoc1.PrinterSettings.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
 
-                GetPrintArea(pnl);
+                //GetPrintArea(pnl);
                 previewdlg.Width = pnlPage.Width;
                 previewdlg.Height = pnlPage.Height;
                 previewdlg.Document = printdoc1;
@@ -278,38 +450,43 @@ namespace Labels
 
             }
         }
-
+        
+        int noPages = 0;
         private void button2_Click(object sender, EventArgs e)
         {
+            noPages = 0;
             successfullyPrint();
         }
 
         private void successfullyPrint()
         {
-            printdoc1.OriginAtMargins = true;
-            PrinterSettings ps = new PrinterSettings();
-            printdoc1.PrinterSettings = ps;
-            IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
-            PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4);
-            printdoc1.DefaultPageSettings.PaperSize = sizeA4;
+            try
+            {
+                printdoc1.OriginAtMargins = true;
+                PrinterSettings ps = new PrinterSettings();
+                printdoc1.PrinterSettings = ps;
+                IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+                PaperSize sizeA4 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A4);
+                printdoc1.DefaultPageSettings.PaperSize = sizeA4;
 
-            this.printdoc1.DefaultPageSettings.PaperSize.RawKind = 300;
+                this.printdoc1.DefaultPageSettings.PaperSize.RawKind = 300;
 
-            printdoc1.DefaultPageSettings.Margins = new System.Drawing.Printing.Margins(0, 0, 0, 0);
+                printdoc1.DefaultPageSettings.Margins = new System.Drawing.Printing.Margins(0, 0, 0, 0);
 
 
-            previewdlg.Document = printdoc1;
-            previewdlg.ShowDialog();
+                previewdlg.Document = printdoc1;
+                previewdlg.ShowDialog();
 
-            //printdoc1.Print();
+                //printdoc1.Print();
+            }
+            catch (Exception param)
+            {
+                MessageBox.Show(param.Message);
+            }
 
 
         }
-
-
-        //PRINT PANEL
-
-
+       
         private void printDynamicallyConvert()
         {
             const int dotsPerInch = 600;    // define the quality in DPI
@@ -372,91 +549,81 @@ namespace Labels
             const double heightInInch = 11.69;  // height of the bitmap in INCH
             using (Bitmap bitmap = new Bitmap((int)(widthInInch * dotsPerInch), (int)(heightInInch * dotsPerInch)))
 
-            {
                 bitmap.SetResolution(dotsPerInch, dotsPerInch);
 
-               
-                using (Brush brush = Brushes.Black)
-                using (Pen blackPen = new Pen(Color.Black, 4))
-                using (Graphics graphics = Graphics.FromImage(bitmap))
+
+            using (Brush brush = Brushes.Black)
+            using (Pen blackPen = new Pen(Color.Black, 4))
+            using (Graphics graphics = Graphics.FromImage(GlobalV.changeBar))
+            {
+                
+
+
+                // this should recurse...
+                // just for demo so kept it simple
+                foreach (var ctl in pnl.Controls)
                 {
-
-                    // this should recurse...
-                    // just for demo so kept it simple
-                    foreach (var ctl in pnl.Controls)
+                    // for every control type
+                    // come up with a way to Draw its
+                    // contents
+                    if (ctl is Label)
                     {
-                        // for every control type
-                        // come up with a way to Draw its
-                        // contents
-                        if (ctl is Label)
-                        {
-                            var lbl = (Label)ctl;
-                            gr.DrawString(
-                                lbl.Text,
-                                lbl.Font,
-                                new SolidBrush(lbl.ForeColor),
-                                lbl.Location.X,  // simple based on the position in the panel
-                                lbl.Location.Y);
-                        }
-                        if (ctl is FlowLayoutPanel)
-                        {
-                            var pic = (FlowLayoutPanel)ctl;
-
-                            Code39BarcodeDraw barcode39 = BarcodeDrawFactory.Code39WithoutChecksum;
-                            Image bar1 = barcode39.Draw(noPages.ToString(), 80, 2);
-                            gr.DrawImage(bar1, pic.Location.X, pic.Location.Y);
-
-
-                            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            //var barcodeWriter = new BarcodeWriter();
-
-                            //barcodeWriter.Format = BarcodeFormat.CODE_39;
-
-                            //barcodeWriter.Options = new ZXing.Common.EncodingOptions
-                            //{
-                            //    Height = 182,
-                            //    Width = 413,
-                            //    Margin = 1,
-                            //    PureBarcode = true
-                            //};
-
-
-
-
-                            //using (Bitmap bp = barcodeWriter.Write("#LF006499"))
-                            //{
-                            //    gr.DrawImageUnscaledAndClipped(bp, new Rectangle(
-                            //        pic.Location.X,
-                            //        pic.Location.Y,
-                            //        pic.Width,
-                            //        pic.Height));
-                            //}
-                        }
+                        //var lbl = (Label)ctl;
+                        //gr.DrawString(
+                        //    lbl.Text,
+                        //    lbl.Font,
+                        //    new SolidBrush(lbl.ForeColor),
+                        //    lbl.Location.X,  // simple based on the position in the panel
+                        //    lbl.Location.Y);
                     }
+                    else if (ctl is FlowLayoutPanel)
+                    {
+                        var pic = (FlowLayoutPanel)ctl;
 
 
-                    //SaveFileDialog sf = new SaveFileDialog();
-                    //sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
-                    //sf.ShowDialog();
-                    //var path = sf.FileName;
-                    //bitmap.Save(path);
+                        //gr.DrawImage(GlobalV.changeBar, pic.Location.X, pic.Location.Y);
+
+
+
+
+
+
+
+                        //var barcodeWriter = new BarcodeWriter();
+
+                        //barcodeWriter.Format = BarcodeFormat.CODE_39;
+
+                        //barcodeWriter.Options = new ZXing.Common.EncodingOptions
+                        //{
+                        //    Height = 182,
+                        //    Width = 413,
+                        //    Margin = 1,
+                        //    PureBarcode = true
+                        //};
+
+
+
+
+                        //using (Bitmap bp = barcodeWriter.Write("#LF006499"))
+                        //{
+                        //    gr.DrawImageUnscaledAndClipped(bp, new Rectangle(
+                        //        pic.Location.X,
+                        //        pic.Location.Y,
+                        //        pic.Width,
+                        //        pic.Height));
+                        //}
+                    }
                 }
+
+
+                //SaveFileDialog sf = new SaveFileDialog();
+                //sf.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+                //sf.ShowDialog();
+                //var path = sf.FileName;
+                //bitmap.Save(path);
             }
+        
+            
             
 
 
@@ -470,16 +637,7 @@ namespace Labels
             e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             GetPrintArea(pnlPage, e.Graphics);
         }
-
-
-
-
-
-
-
-
-
-
+        
         private static ImageCodecInfo GetEncoderInfo(String mimeType)
         {
             int j;
@@ -491,6 +649,21 @@ namespace Labels
                     return encoders[j];
             }
             return null;
+        }
+
+        private void printdoc1_QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
+        {
+            GlobalV.changeBarcode = BarcodeDrawFactory.Code39WithoutChecksum;
+            GlobalV.changeBar = GlobalV.changeBarcode.Draw("#LF00649", 100, 2);
+            
+        }
+
+        private void pnlPage_Click(object sender, EventArgs e)
+        {
+            if (this.BtnDragging)
+            {
+                this.BtnDragging = false;
+            }
         }
     }
 }
