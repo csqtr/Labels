@@ -63,6 +63,16 @@ namespace Labels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlackLogoOnWhite {
+            get {
+                object obj = ResourceManager.GetObject("BlackLogoOnWhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cog100 {
             get {
                 object obj = ResourceManager.GetObject("cog100", resourceCulture);
@@ -83,6 +93,26 @@ namespace Labels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap datatron_reversed_title {
+            get {
+                object obj = ResourceManager.GetObject("datatron-reversed-title", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DHEADERS {
+            get {
+                object obj = ResourceManager.GetObject("DHEADERS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_menu_filled_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-menu-filled-50", resourceCulture);
@@ -96,6 +126,46 @@ namespace Labels.Properties {
         internal static System.Drawing.Bitmap icons8_menu_filled_500 {
             get {
                 object obj = ResourceManager.GetObject("icons8-menu-filled-500", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo4jpg1 {
+            get {
+                object obj = ResourceManager.GetObject("logo4jpg1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo4jpg2 {
+            get {
+                object obj = ResourceManager.GetObject("logo4jpg2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LogoBWSized {
+            get {
+                object obj = ResourceManager.GetObject("LogoBWSized", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PEN_LOGO_BLACK_ON_WHITE {
+            get {
+                object obj = ResourceManager.GetObject("PEN LOGO BLACK ON WHITE", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -43,6 +43,9 @@ namespace Labels
         private const int cGrip = 16;      // Grip size
         private const int cCaption = 32;   // Caption bar height;
 
+        int controlCount;
+        SerialControlPanel sc;
+
         protected override void OnPaint(PaintEventArgs e)
         {
             //Rectangle rc = new Rectangle(this.ClientSize.Width - cGrip, this.ClientSize.Height - cGrip, cGrip, cGrip);
@@ -78,7 +81,9 @@ namespace Labels
             }
             base.WndProc(ref m);
         }
-        
+
+        delegate void DelUserControlMethod(int index);
+
         private void mainLabels_Load(object sender, EventArgs e)
         {
             
@@ -135,15 +140,77 @@ namespace Labels
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var b = new Label();
-            b.Text = "Text2";
-            b.Name = "text2";
-            //b.Click += new EventHandler(b_Click);
-            b.MouseUp += (s, e2) => { this.BtnDragging = false; };
-            b.MouseDown += new MouseEventHandler(this.b_MouseDown);
-            b.MouseMove += new MouseEventHandler(this.b_MouseMove);
-            this.pnlPage.Controls.Add(b);
+            //var b = new Label();
+            //b.Text = "Text2";
+            //b.Name = "text2";
+            ////b.Click += new EventHandler(b_Click);
+            //b.MouseUp += (s, e2) => { this.BtnDragging = false; };
+            //b.MouseDown += new MouseEventHandler(this.b_MouseDown);
+            //b.MouseMove += new MouseEventHandler(this.b_MouseMove);
+            //this.pnlPage.Controls.Add(b);
+
+
+            
+            //Gets number of ControlPanels on side
+            
+            
+            // Add a control panel to the pnlControls - starts at 0
+            sc = new SerialControlPanel(controlCount);
+            pnlControls.Controls.Add(sc);
+            sc.Location = new Point(0, 0);
+
+            DelUserControlMethod delUserControl = new DelUserControlMethod(RearrangeControlsAfterDelete);
+            sc.CallingPageMethod = delUserControl;
+
+            //Counts the number of controls
+            countPnlControls();
+
+            //if more than 1 control, move to new position 
+            if (controlCount > 1)
+            {
+                Point newLocation = new Point();
+                //gets position of last control.
+                newLocation = pnlControls.Controls[controlCount - 2].Location;
+                //offsets new control by height + 15 spacing
+                newLocation.Offset(0, pnlControls.Controls[controlCount - 2].Height);
+                //Sets new location
+                sc.Location = newLocation;
+            } 
+            
         }
+
+        private void countPnlControls()
+        {
+            controlCount = 0;
+
+            foreach (Control c in pnlControls.Controls)
+            {
+                if (c.GetType() == typeof(SerialControlPanel))
+                {
+                    controlCount++;
+                }
+
+            }
+
+
+
+            lblControlCount.Text = "Control Count: " + controlCount;
+
+        }
+
+
+
+
+
+        public void RearrangeControlsAfterDelete(int index)
+        {
+            for(int i = index + 1; i < controlCount; i++)
+            {
+                pnlControls.Controls[i].Location.Offset(0, (pnlControls.Controls[controlCount - 2].Height)*-1);
+            }
+        }
+
+
 
         private void b_MouseDown(object sender, MouseEventArgs e)
         {
@@ -308,12 +375,40 @@ namespace Labels
 
         private void lblHead_DoubleClick(object sender, EventArgs e)
         {
-            int index = pnlPage.Controls.IndexOf(lblHead);
+            //int index = pnlPage.Controls.IndexOf(lblHead);
+
+            ////MessageBox.Show($"Head: {index}");
+
+            //Update update = new Update(index,lblHead.Text);
+            //update.Show();
+
+            EditContents(lblHead);
+        }
+        private void lblSubHead_DoubleClick(object sender, EventArgs e)
+        {
+            //int index = pnlPage.Controls.IndexOf(lblSubHead);
+
+            ////MessageBox.Show($"Head: {index}");
+
+            //Update update = new Update(index, lblSubHead.Text);
+            //update.Show();
+
+            EditContents(lblSubHead);
+        }
+
+        private void EditContents(Control ctrl)
+        {
+            int index = pnlPage.Controls.IndexOf(ctrl);
 
             //MessageBox.Show($"Head: {index}");
 
-            Update update = new Update(index,lblHead.Text);
-            update.Show();
+            if(ctrl is Label)//if control; is type label
+            {
+                Update update = new Update(index, ctrl.Text);
+                update.Show();
+            }
+            
+
         }
 
         // END HEADER LABEL
@@ -456,6 +551,9 @@ namespace Labels
         {
             noPages = 0;
             successfullyPrint();
+
+            countPnlControls();
+
         }
 
         private void successfullyPrint()
@@ -664,6 +762,35 @@ namespace Labels
             {
                 this.BtnDragging = false;
             }
+        }
+        
+        public Point GetPositionInForm(Control ctrl)
+        {
+            //Return the locaton of the control
+            Point p = ctrl.Location;
+
+
+            return p;
+        }
+
+        private void pnlControls_Click(object sender, EventArgs e)
+        {
+            pnlControls.Focus();
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            List<int> upperLower = new List<int>(new int[] { 0, 1 });
+
+
+            LargeFormat lf = new LargeFormat(1,upperLower);
+            lf.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            UIHome home = new UIHome();
+            home.Show();
         }
     }
 }

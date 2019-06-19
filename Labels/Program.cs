@@ -16,7 +16,7 @@ namespace Labels
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new mainLabels());
+            Application.Run(new UIHome());
         }
     }
 }
