@@ -165,6 +165,7 @@ namespace Labels
                 {
                     e.HasMorePages = false;
                     noPages = 0;
+                    this.Close();
                     return;
                 }
 

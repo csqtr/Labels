@@ -196,6 +196,7 @@ namespace Labels
                 {
                     e.HasMorePages = false;
                     noPages = 0;
+                    this.Close();
                     return;
                 }
 
@@ -208,6 +209,7 @@ namespace Labels
                 noPages = 0;
             }
 
+            
             
         }
 
